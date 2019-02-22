@@ -1,4 +1,4 @@
-package hutoch.m2dl.miniprojet;
+package hutoch.m2dl.miniprojet.utils;
 
 import android.media.MediaRecorder;
 
