@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">MiniProjet</string>
+    <string name="luminositeTitle">Luminosité</string>
+    <string name="accelTitle">Acceleration</string>
+    <string name="noiseTitle">Sonorité</string>
+    <string name="gps">GPS</string>
+    <string name="touchTitle">Touché (coulé)</string>
 </resources>

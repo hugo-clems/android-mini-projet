@@ -10,145 +10,170 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tvTitre1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Touch"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+        android:orientation="vertical"
+        android:background="@drawable/main_layout">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvTouchAct"
-                android:layout_width="203dp"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
-
-            <TextView
-                android:id="@+id/tvTouchMax"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvTitre2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Noise"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvNoiseAct"
-                android:layout_width="205dp"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
-
-            <TextView
-                android:id="@+id/tvNoiseMax"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
-        </LinearLayout>
-
-        <ProgressBar
-            android:id="@+id/pbNoise"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/tvTitre3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Accelero"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvAcceleroAct"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TextView" />
-
-            <TextView
-                android:id="@+id/tvAcceleroMax"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TextView" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvTitre4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Lumin"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvLuminAct"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TextView" />
-
-            <TextView
-                android:id="@+id/tvLuminMax"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TextView" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvTitre5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="GPS"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
-        <LinearLayout
+            android:id="@+id/topLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:baselineAligned="false">
 
-            <TextView
-                android:id="@+id/tvGpsAct"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <LinearLayout
+                android:id="@+id/topLeftLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="TextView" />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvGpsMax"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                <TextView
+                    android:id="@+id/LiminTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.9"
+                    android:gravity="center_horizontal"
+                    android:text="@string/luminositeTitle"
+                    android:textColor="#CCCCCC"/>
+
+                <ProgressBar
+                    android:id="@+id/luminProgressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.1"
+                    android:progressDrawable="@drawable/custom_circular_progress" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/topRightLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="TextView" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/accelTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.9"
+                    android:gravity="center_horizontal"
+                    android:text="@string/accelTitle"
+                    android:textColor="#CCCCCC" />
+
+                <ProgressBar
+                    android:id="@+id/accelProgressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.1"
+                    android:progressDrawable="@drawable/custom_circular_progress" />
+            </LinearLayout>
+
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/midLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.4" />
+
+            <LinearLayout
+                android:id="@+id/innerMidLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/noiseTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.9"
+                    android:gravity="center_horizontal"
+                    android:text="@string/noiseTitle"
+                    android:textColor="#CCCCCC" />
+
+                <ProgressBar
+                    android:id="@+id/noiseProgressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.1"
+                    android:progressDrawable="@drawable/custom_circular_progress" />
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.4" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/botLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:baselineAligned="false">
+
+            <LinearLayout
+                android:id="@+id/botLeftLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/gpsTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.9"
+                    android:gravity="center_horizontal"
+                    android:text="@string/gps"
+                    android:textColor="#CCCCCC" />
+
+                <ProgressBar
+                    android:id="@+id/gpsProgressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.1"
+                    android:progressDrawable="@drawable/custom_circular_progress" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/botRightLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/touchTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.9"
+                    android:gravity="center_horizontal"
+                    android:text="@string/touchTitle"
+                    android:textColor="#CCCCCC" />
+
+                <ProgressBar
+                    android:id="@+id/touchProgressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.1"
+                    android:progressDrawable="@drawable/custom_circular_progress" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

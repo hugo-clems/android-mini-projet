@@ -46,17 +46,21 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     /* *** Elements de la vue *** */
     private LinearLayout linearLayout;
-    private TextView tvTouchAct;
-    private TextView tvTouchMax;
-    private TextView tvNoiseAct;
-    private TextView tvNoiseMax;
-    private TextView tvAcceleroAct;
-    private TextView tvAcceleroMax;
-    private TextView tvLuminAct;
-    private TextView tvLuminMax;
-    private TextView tvGpsAct;
-    private TextView tvGpsMax;
+//    private TextView tvTouchAct;
+//    private TextView tvTouchMax;
+//    private TextView tvNoiseAct;
+//    private TextView tvNoiseMax;
+//    private TextView tvAcceleroAct;
+//    private TextView tvAcceleroMax;
+//    private TextView tvLuminAct;
+//    private TextView tvLuminMax;
+//    private TextView tvGpsAct;
+//    private TextView tvGpsMax;
     private ProgressBar pbNoise;
+    private ProgressBar pbLumin;
+    private ProgressBar pbAccel;
+    private ProgressBar pbGps;
+    private ProgressBar pbTouch;
 
     /* *** Valeurs *** */
     private List<Float> touchData;
@@ -87,29 +91,33 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
         // Get elements
         linearLayout = findViewById(R.id.linearLayout);
-        tvTouchAct = findViewById(R.id.tvTouchAct);
-        tvTouchMax = findViewById(R.id.tvTouchMax);
-        tvNoiseAct = findViewById(R.id.tvNoiseAct);
-        tvNoiseMax = findViewById(R.id.tvNoiseMax);
-        tvAcceleroAct = findViewById(R.id.tvAcceleroAct);
-        tvAcceleroMax = findViewById(R.id.tvAcceleroMax);
-        tvLuminAct = findViewById(R.id.tvLuminAct);
-        tvLuminMax = findViewById(R.id.tvLuminMax);
-        tvGpsAct = findViewById(R.id.tvGpsAct);
-        tvGpsMax = findViewById(R.id.tvGpsMax);
-        pbNoise = findViewById(R.id.pbNoise);
+//        tvTouchAct = findViewById(R.id.tvTouchAct);
+//        tvTouchMax = findViewById(R.id.tvTouchMax);
+//        tvNoiseAct = findViewById(R.id.tvNoiseAct);
+//        tvNoiseMax = findViewById(R.id.tvNoiseMax);
+//        tvAcceleroAct = findViewById(R.id.tvAcceleroAct);
+//        tvAcceleroMax = findViewById(R.id.tvAcceleroMax);
+//        tvLuminAct = findViewById(R.id.tvLuminAct);
+//        tvLuminMax = findViewById(R.id.tvLuminMax);
+//        tvGpsAct = findViewById(R.id.tvGpsAct);
+//        tvGpsMax = findViewById(R.id.tvGpsMax);
+        pbNoise = findViewById(R.id.noiseProgressBar);
+        pbLumin = findViewById(R.id.luminProgressBar);
+        pbAccel = findViewById(R.id.accelProgressBar);
+        pbGps = findViewById(R.id.gpsProgressBar);
+        pbTouch = findViewById(R.id.touchProgressBar);
 
         // Initialisation des élements
-        tvTouchAct.setText("0");
-        tvTouchMax.setText("0");
-        tvNoiseAct.setText("0");
-        tvNoiseMax.setText("0");
-        tvAcceleroAct.setText("0");
-        tvAcceleroMax.setText("0");
-        tvLuminAct.setText("0");
-        tvLuminMax.setText("0");
-        tvGpsAct.setText("0");
-        tvGpsMax.setText("0");
+//        tvTouchAct.setText("0");
+//        tvTouchMax.setText("0");
+//        tvNoiseAct.setText("0");
+//        tvNoiseMax.setText("0");
+//        tvAcceleroAct.setText("0");
+//        tvAcceleroMax.setText("0");
+//        tvLuminAct.setText("0");
+//        tvLuminMax.setText("0");
+//        tvGpsAct.setText("0");
+//        tvGpsMax.setText("0");
 
         // Initialisation des valeurs
         touchData = new ArrayList<>();
@@ -126,6 +134,16 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         luminMax = 0f;
         gpsAct = 0f;
         gpsMax = 0f;
+        pbNoise.setMax(noiseMax);
+        pbNoise.setProgress(0);
+        pbLumin.setMax(luminMax.intValue());
+        pbLumin.setProgress(0);
+        pbAccel.setMax(acceleroMax.intValue());
+        pbAccel.setProgress(0);
+        pbGps.setMax(gpsMax.intValue());
+        pbGps.setProgress(0);
+        pbTouch.setMax(touchMax.intValue());
+        pbTouch.setProgress(0);
 
         // Touch event
         linearLayout.setOnTouchListener(this);
@@ -177,11 +195,13 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
         if (Math.abs(posy - touchAct) > DELTA_TOUCH) {
             touchAct = posy;
-            tvTouchAct.setText("Valeur actuel : " + touchAct);
+            pbTouch.setProgress(touchAct.intValue());
+//            tvTouchAct.setText("Valeur actuel : " + touchAct);
 
             if (posy > touchMax) {
                 touchMax = posy;
-                tvTouchMax.setText("Valeur max : " + touchMax);
+                pbTouch.setMax(touchMax.intValue());
+//                tvTouchMax.setText("Valeur max : " + touchMax);
             }
 
             touchData.add(touchAct);
@@ -243,11 +263,12 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         if (Math.abs(signalEMA - noiseAct) > DELTA_NOISE) {
             noiseAct = signalEMA;
             pbNoise.setProgress(noiseAct);
-            tvNoiseAct.setText("Valeur actuel : " + noiseAct +"dB");
+//            tvNoiseAct.setText("Valeur actuel : " + noiseAct +"dB");
 
             if (noiseAct > noiseMax) {
                 noiseMax = noiseAct;
-                tvNoiseMax.setText("Valeur max : " + noiseMax + "dB");
+                pbNoise.setMax(noiseMax);
+//                tvNoiseMax.setText("Valeur max : " + noiseMax + "dB");
             }
         }
     }
@@ -266,11 +287,13 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
                 if(Math.abs(lightSensor - luminAct) > DELTA_LUMIN) {
                     luminAct = lightSensor;
-                    tvLuminAct.setText("Valeur actuelle : " + luminAct);
+                    pbLumin.setProgress(luminAct.intValue());
+//                    tvLuminAct.setText("Valeur actuelle : " + luminAct);
 
                     if (lightSensor > luminMax) {
                         luminMax = lightSensor;
-                        tvLuminMax.setText("Valeur max : " + luminMax);
+                        pbLumin.setMax(luminMax.intValue());
+//                        tvLuminMax.setText("Valeur max : " + luminMax);
                     }
 
                     luminData.add(luminAct);
@@ -280,11 +303,13 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
                 if (Math.abs(gpsSensor - gpsAct) > DELTA_GPS) {
                     gpsAct = gpsSensor;
-                    tvGpsAct.setText("Valeur actuelle : " +gpsAct);
+                    pbGps.setProgress(gpsAct.intValue());
+//                    tvGpsAct.setText("Valeur actuelle : " +gpsAct);
 
                     if (gpsSensor > gpsMax) {
                         gpsMax = gpsSensor;
-                        tvGpsMax.setText("Valeur max : " + gpsMax);
+                        pbGps.setMax(gpsMax.intValue());
+//                        tvGpsMax.setText("Valeur max : " + gpsMax);
                     }
 
                     gpdData.add(gpsAct);
@@ -297,11 +322,13 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
             if (Math.abs(z - acceleroAct) > DELTA_ACCELERO) {
                 acceleroAct = z;
-                tvAcceleroAct.setText("Valeur actuel : " + acceleroAct);
+                pbAccel.setProgress(acceleroAct.intValue());
+//                tvAcceleroAct.setText("Valeur actuel : " + acceleroAct);
 
                 if (acceleroAct > acceleroMax) {
                     acceleroMax = acceleroAct;
-                    tvAcceleroMax.setText("Valeur max : " + acceleroMax);
+                    pbAccel.setMax(acceleroMax.intValue());
+//                    tvAcceleroMax.setText("Valeur max : " + acceleroMax);
                 }
 
                 acceleroData.add(acceleroAct);
