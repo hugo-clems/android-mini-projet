@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private TextView tvLuminMax;
     private TextView tvGpsAct;
     private TextView tvGpsMax;
-    private ProgressBar pbNoise;
     private ProgressBar progressBarNoise;
     private ProgressBar progressBarTouch;
     private ProgressBar progressBarAccelero;
@@ -102,9 +101,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         tvLuminMax = findViewById(R.id.tvLuminMax);
         tvGpsAct = findViewById(R.id.tvGpsAct);
         tvGpsMax = findViewById(R.id.tvGpsMax);
-        pbNoise = findViewById(R.id.pbNoise);
-        progressBarNoise = findViewById(R.id.vertical_progressbar01);
-        progressBarTouch = findViewById(R.id.vertical_progressbar02);
+        progressBarTouch = findViewById(R.id.vertical_progressbar01);
+        progressBarNoise = findViewById(R.id.vertical_progressbar02);
         progressBarAccelero = findViewById(R.id.vertical_progressbar03);
         progressBarLumin = findViewById(R.id.vertical_progressbar04);
         progressBarGPS = findViewById(R.id.vertical_progressbar05);
@@ -242,7 +240,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         noiseHandler.removeCallbacks(noiseSleepTask);
         noiseHandler.removeCallbacks(noisePollTask);
         noiseSensor.stop();
-        pbNoise.setProgress(0);
         updateDisplayNoise(0);
         noiseRunning = false;
     }
@@ -255,7 +252,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         progressBarNoise.setProgress(signalEMA);
         if (Math.abs(signalEMA - noiseAct) > DELTA_NOISE) {
             noiseAct = signalEMA;
-            pbNoise.setProgress(noiseAct);
             tvNoiseAct.setText("Valeur actuel : " + noiseAct +"dB");
 
             if (noiseAct > noiseMax) {
@@ -271,7 +267,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
      */
     @Override
     public void onSensorChanged(SensorEvent event) {
-        Sensor mySensor = event.sensor;
         int sensor = event.sensor.getType();
 
         synchronized (this) {
@@ -307,24 +302,22 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
                     gpdData.add(gpsAct);
                 }
-            }
-        }
+            } else if (sensor == Sensor.TYPE_ACCELEROMETER) {
+                Float accelSensor = Math.abs(event.values[2]);
+                progressBarAccelero.setProgress(accelSensor.intValue());
 
-        if (mySensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            Float z = Math.abs(event.values[2]);
-            progressBarAccelero.setProgress(z.intValue());
+                if (Math.abs(accelSensor - acceleroAct) > DELTA_ACCELERO) {
+                    acceleroAct = accelSensor;
+                    tvAcceleroAct.setText("Valeur actuel : " + acceleroAct);
 
-            if (Math.abs(z - acceleroAct) > DELTA_ACCELERO) {
-                acceleroAct = z;
-                tvAcceleroAct.setText("Valeur actuel : " + acceleroAct);
+                    if (acceleroAct > acceleroMax) {
+                        acceleroMax = acceleroAct;
+                        tvAcceleroMax.setText("Valeur max : " + acceleroMax);
+                        progressBarAccelero.setMax(acceleroMax.intValue());
+                    }
 
-                if (acceleroAct > acceleroMax) {
-                    acceleroMax = acceleroAct;
-                    tvAcceleroMax.setText("Valeur max : " + acceleroMax);
-                    progressBarAccelero.setMax(acceleroMax.intValue());
+                    acceleroData.add(acceleroAct);
                 }
-
-                acceleroData.add(acceleroAct);
             }
         }
     }
