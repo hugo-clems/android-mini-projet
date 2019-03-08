@@ -82,6 +82,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private Float gpsMax;
     private boolean noiseRunning = false;
 
+    private String jeuSelected;
+
     /**
      * A la création de l'activité.
      */
@@ -332,7 +334,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
     public void clicProgressBar(View v) {
-        btnSelected.setTag(v.getTag());
         String tag = "" + v.getTag();
         String text = "";
         switch (tag) {
@@ -353,14 +354,13 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 break;
         }
         this.btnSelected.setText(text);
-        btnSelected.setEnabled(true);
+        this.jeuSelected = text;
+        this.btnSelected.setEnabled(true);
     }
 
     public void clicBtnSelected(View v) {
-        String tag = "" + v.getTag();
-        //this.btnSelected.setText(tag);
         Intent intent = new Intent(this, JeuActivity.class);
-        intent.putExtra("tag", tag);
+        intent.putExtra("jeuSelected", jeuSelected);
         startActivity(intent);
     }
 

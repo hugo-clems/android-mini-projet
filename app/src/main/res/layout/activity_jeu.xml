@@ -11,10 +11,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvJeu"
+        <SurfaceView
+            android:id="@+id/surfaceViewJeu"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
