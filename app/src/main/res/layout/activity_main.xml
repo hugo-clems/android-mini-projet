@@ -12,10 +12,18 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <Button
+            android:id="@+id/btnSelected"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.01"
+            android:onClick="clicBtnSelected"
+            android:text="Sélectionner un jeu" />
+
         <Space
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.1" />
+            android:layout_weight="0.2" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -152,7 +160,11 @@
                 style="@style/Widget.ProgressBar.Vertical"
                 android:layout_width="12dip"
                 android:layout_height="300dip"
-                android:layout_weight="0.3" />
+                android:layout_weight="0.3"
+                android:onClick="clicProgressBar"
+                android:clickable="true"
+                android:focusable="true"
+                android:tag="1" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -164,7 +176,11 @@
                 style="@style/Widget.ProgressBar.Vertical"
                 android:layout_width="12dip"
                 android:layout_height="300dip"
-                android:layout_weight="0.3" />
+                android:layout_weight="0.3"
+                android:onClick="clicProgressBar"
+                android:clickable="true"
+                android:focusable="true"
+                android:tag="2" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -176,7 +192,11 @@
                 style="@style/Widget.ProgressBar.Vertical"
                 android:layout_width="12dip"
                 android:layout_height="300dip"
-                android:layout_weight="0.3" />
+                android:layout_weight="0.3"
+                android:onClick="clicProgressBar"
+                android:clickable="true"
+                android:focusable="true"
+                android:tag="3" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -188,7 +208,11 @@
                 style="@style/Widget.ProgressBar.Vertical"
                 android:layout_width="12dip"
                 android:layout_height="300dip"
-                android:layout_weight="0.3" />
+                android:layout_weight="0.3"
+                android:onClick="clicProgressBar"
+                android:clickable="true"
+                android:focusable="true"
+                android:tag="4" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -200,7 +224,11 @@
                 style="@style/Widget.ProgressBar.Vertical"
                 android:layout_width="12dip"
                 android:layout_height="300dip"
-                android:layout_weight="0.3" />
+                android:layout_weight="0.3"
+                android:onClick="clicProgressBar"
+                android:clickable="true"
+                android:focusable="true"
+                android:tag="5" />
 
             <Space
                 android:layout_width="wrap_content"

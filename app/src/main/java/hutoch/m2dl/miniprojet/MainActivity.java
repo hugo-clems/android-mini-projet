@@ -3,6 +3,7 @@ package hutoch.m2dl.miniprojet;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -15,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private TextView tvLuminMax;
     private TextView tvGpsAct;
     private TextView tvGpsMax;
+    private Button btnSelected;
     private ProgressBar progressBarNoise;
     private ProgressBar progressBarTouch;
     private ProgressBar progressBarAccelero;
@@ -79,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private Float gpsMax;
     private boolean noiseRunning = false;
 
-
     /**
      * A la création de l'activité.
      */
@@ -101,6 +103,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         tvLuminMax = findViewById(R.id.tvLuminMax);
         tvGpsAct = findViewById(R.id.tvGpsAct);
         tvGpsMax = findViewById(R.id.tvGpsMax);
+        btnSelected = findViewById(R.id.btnSelected);
+        btnSelected.setEnabled(false);
         progressBarTouch = findViewById(R.id.vertical_progressbar01);
         progressBarNoise = findViewById(R.id.vertical_progressbar02);
         progressBarAccelero = findViewById(R.id.vertical_progressbar03);
@@ -325,6 +329,38 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         // Non utilisé
+    }
+
+    public void clicProgressBar(View v) {
+        btnSelected.setTag(v.getTag());
+        String tag = "" + v.getTag();
+        String text = "";
+        switch (tag) {
+            case "1":
+                text = "Jouer avec Touch";
+                break;
+            case "2":
+                text = "Jouer avec Noise";
+                break;
+            case "3":
+                text = "Jouer avec Accelero";
+                break;
+            case "4":
+                text = "Jouer avec Lumin";
+                break;
+            case "5":
+                text = "Jouer avec GPS";
+                break;
+        }
+        this.btnSelected.setText(text);
+        btnSelected.setEnabled(true);
+    }
+
+    public void clicBtnSelected(View v) {
+        //String tag = "" + v.getTag();
+        //this.btnSelected.setText(tag);
+        Intent intent = new Intent(this, JeuActivity.class);
+        startActivity(intent);
     }
 
 }
