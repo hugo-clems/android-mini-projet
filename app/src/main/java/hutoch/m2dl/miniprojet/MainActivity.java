@@ -357,9 +357,10 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
     public void clicBtnSelected(View v) {
-        //String tag = "" + v.getTag();
+        String tag = "" + v.getTag();
         //this.btnSelected.setText(tag);
         Intent intent = new Intent(this, JeuActivity.class);
+        intent.putExtra("tag", tag);
         startActivity(intent);
     }
 
