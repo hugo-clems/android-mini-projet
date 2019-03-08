@@ -9,6 +9,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.support.v4.app.ActivityCompat;
@@ -26,16 +29,19 @@ import java.util.List;
 
 import hutoch.m2dl.miniprojet.utils.DetectNoise;
 
-public class MainActivity extends AppCompatActivity implements View.OnTouchListener, SensorEventListener {
+public class MainActivity extends AppCompatActivity implements View.OnTouchListener, SensorEventListener, LocationListener {
 
     /* *** Constantes *** */
     private static final int DELTA_TOUCH = 5;
     private static final int DELTA_NOISE = 1;
     private static final int DELTA_ACCELERO = 3;
     private static final int DELTA_LUMIN = 5;
-    private static final int DELTA_GPS = 1;
     private static final int NOISE_POLL_INTERVAL = 300;
-    private static final int RECORD_AUDIO = 0;
+    private static final int PERMISSION_ALL = 1;
+    private static final String[] PERMISSIONS = {
+            android.Manifest.permission.RECORD_AUDIO,
+            android.Manifest.permission.ACCESS_FINE_LOCATION,
+    };
 
     /* *** Utils *** */
     private DetectNoise noiseSensor;
@@ -44,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private SensorManager sensorManager;
     private Sensor acceleroSensor;
     private Sensor luminSensor;
-    private Sensor gpsSensor;
+    private LocationManager locationManager;
 
     /* *** Elements de la vue *** */
     private LinearLayout linearLayout;
@@ -69,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private List<Float> touchData;
     private List<Float> acceleroData;
     private List<Float> luminData;
-    private List<Float> gpdData;
+    private List<Float> gpsData;
     private Float touchMax;
     private Float touchAct;
     private Float acceleroAct;
@@ -81,11 +87,13 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private Float gpsAct;
     private Float gpsMax;
     private boolean noiseRunning = false;
+    private Location locationOrigin;
+    private boolean isLocationOrigin = true;
 
     /**
      * A la création de l'activité.
      */
-    @SuppressLint("InvalidWakeLockTag")
+    @SuppressLint({"InvalidWakeLockTag", "MissingPermission"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,22 +120,22 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         progressBarGPS = findViewById(R.id.vertical_progressbar05);
 
         // Initialisation des élements
-        tvTouchAct.setText("0");
-        tvTouchMax.setText("0");
-        tvNoiseAct.setText("0");
-        tvNoiseMax.setText("0");
-        tvAcceleroAct.setText("0");
-        tvAcceleroMax.setText("0");
-        tvLuminAct.setText("0");
-        tvLuminMax.setText("0");
-        tvGpsAct.setText("0");
-        tvGpsMax.setText("0");
+        tvTouchAct.setText("Valeur actuelle : 0");
+        tvTouchMax.setText("Valeur max : 0");
+        tvNoiseAct.setText("Valeur actuelle : 0");
+        tvNoiseMax.setText("Valeur max : 0");
+        tvAcceleroAct.setText("Valeur actuelle : 0");
+        tvAcceleroMax.setText("Valeur max : 0");
+        tvLuminAct.setText("Valeur actuelle : 0");
+        tvLuminMax.setText("Valeur max : 0");
+        tvGpsAct.setText("Valeur actuelle : 0");
+        tvGpsMax.setText("Valeur max : 0");
 
         // Initialisation des valeurs
         touchData = new ArrayList<>();
         acceleroData = new ArrayList<>();
         luminData = new ArrayList<>();
-        gpdData = new ArrayList<>();
+        gpsData = new ArrayList<>();
         touchAct = 0f;
         touchMax = 0f;
         acceleroAct = 0f;
@@ -138,6 +146,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         luminMax = 0f;
         gpsAct = 0f;
         gpsMax = 0f;
+
+        // Permissions
+        if(!hasPermissions(this, PERMISSIONS)){
+            ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
+        }
 
         // Touch event
         linearLayout.setOnTouchListener(this);
@@ -151,8 +164,21 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         acceleroSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         luminSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
-        gpsSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         sensorManager.registerListener(this, acceleroSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        // minDistance peut servir de DELTA
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+    }
+
+    public static boolean hasPermissions(Context context, String... permissions) {
+        if (context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Override
@@ -170,7 +196,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         }
         sensorManager.registerListener(this, acceleroSensor, SensorManager.SENSOR_DELAY_NORMAL);
         sensorManager.registerListener(this, luminSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(this, gpsSensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
@@ -221,11 +246,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
      * Démarre le détecteur de bruits.
      */
     private void startNoiseSensor() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, RECORD_AUDIO);
-        }
-
         noiseSensor.start();
         if (!mWakeLock.isHeld()) {
             mWakeLock.acquire();
@@ -290,22 +310,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
                     luminData.add(luminAct);
                 }
-            } else if (sensor == Sensor.TYPE_MAGNETIC_FIELD) {
-                Float gpsSensor = Math.abs(event.values[0]);
-                progressBarGPS.setProgress(gpsSensor.intValue());
-
-                if (Math.abs(gpsSensor - gpsAct) > DELTA_GPS) {
-                    gpsAct = gpsSensor;
-                    tvGpsAct.setText("Valeur actuelle : " +gpsAct);
-
-                    if (gpsSensor > gpsMax) {
-                        gpsMax = gpsSensor;
-                        tvGpsMax.setText("Valeur max : " + gpsMax);
-                        progressBarGPS.setMax(gpsMax.intValue());
-                    }
-
-                    gpdData.add(gpsAct);
-                }
             } else if (sensor == Sensor.TYPE_ACCELEROMETER) {
                 Float accelSensor = Math.abs(event.values[2]);
                 progressBarAccelero.setProgress(accelSensor.intValue());
@@ -364,4 +368,38 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         startActivity(intent);
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+        if(isLocationOrigin) {
+            locationOrigin = location;
+            isLocationOrigin = false;
+        }
+
+        gpsAct = location.distanceTo(locationOrigin);
+        progressBarGPS.setProgress(gpsAct.intValue());
+        tvGpsAct.setText("Valeur actuelle : " + gpsAct);
+
+        if (gpsAct > gpsMax) {
+            gpsMax = gpsAct;
+            tvGpsMax.setText("Valeur max : " + gpsMax);
+            progressBarGPS.setMax(gpsMax.intValue());
+        }
+
+        gpsData.add(gpsAct);
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
 }
