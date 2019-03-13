@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".JeuActivity">
+    tools:context=".TirAuMigeon">
 
     <LinearLayout
+        android:id="@+id/linearLayoutGame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">

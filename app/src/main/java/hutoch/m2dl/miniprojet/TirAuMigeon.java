@@ -17,13 +17,17 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
-public class TirAuMigeon extends Activity implements SensorEventListener {
+public class TirAuMigeon extends Activity implements SensorEventListener, View.OnTouchListener {
     private SensorManager sensorManager;
     private Sensor accelerometer;
     private long lastUpdate;
@@ -46,7 +50,7 @@ public class TirAuMigeon extends Activity implements SensorEventListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_jeu);
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -75,6 +79,7 @@ public class TirAuMigeon extends Activity implements SensorEventListener {
         mHandler.postDelayed(mUpdateTimeTask, 1000);
 
         animatedView = new AnimatedView(this);
+        animatedView.setOnTouchListener(this);
         setContentView(animatedView);
     }
 
@@ -127,6 +132,20 @@ public class TirAuMigeon extends Activity implements SensorEventListener {
             if(yValue > 0 && yValue + ballSize < height)
                 y = yValue;
         }
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        int posX = x + ballSize / 2;
+        int posY = y + ballSize / 2;
+
+        for(Migeon m : migeons) {
+            if(posX > m.getX() && posX < m.getX() + migeon.getWidth() && posY > m.getY() && posY < m.getY() + migeon.getHeight()) {
+                migeons.remove(m);
+                return true;
+            }
+        }
+        return true;
     }
 
     public class AnimatedView extends android.support.v7.widget.AppCompatImageView {

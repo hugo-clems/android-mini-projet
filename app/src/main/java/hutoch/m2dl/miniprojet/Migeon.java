@@ -2,9 +2,9 @@ package hutoch.m2dl.miniprojet;
 
 public class Migeon
 {
-	float posX;
-	float posY;
-	float rate;
+	private float posX;
+	private float posY;
+	private float rate;
 	
 	public Migeon(float x, float y)
 	{
