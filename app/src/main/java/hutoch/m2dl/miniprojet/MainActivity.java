@@ -343,6 +343,10 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         // Non utilisé
     }
 
+    /**
+     * Quand on clic sur une progressbar (permet la sélection du mode de jeu).
+     * @param v
+     */
     public void clicProgressBar(View v) {
         btnSelected.setTag(v.getTag());
         String tag = "" + v.getTag();
@@ -368,6 +372,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         btnSelected.setEnabled(true);
     }
 
+    /**
+     * Envois les valeurs au jeu.
+     * @param values
+     * @param intent
+     */
     public void pushValues(ArrayList<Float> values, Intent intent) {
         float[] array = new float[values.size()];
         for(int i = 0; i < values.size(); i++) {
@@ -376,6 +385,10 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         intent.putExtra("donnees", array);
     }
 
+    /**
+     * Quand on clic sur le bouton pour lancer le jeu.
+     * @param v
+     */
     public void clicBtnSelected(View v) {
         String tag = "" + v.getTag();
         String titre = "";

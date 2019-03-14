@@ -112,6 +112,9 @@ public class JeuActivity extends Activity implements SensorEventListener, View.O
         animatedView.setOnTouchListener(this);
     }
 
+    /**
+     * Fait tourner le jeu.
+     */
     private Runnable mUpdateTimeTask = new Runnable() {
         public void run() {
             if(listeValeurs.size() > 0) {
@@ -125,6 +128,9 @@ public class JeuActivity extends Activity implements SensorEventListener, View.O
         }
     };
 
+    /**
+     * Quand le jeu est terminé, on affiche l'écran de fin du jeu.
+     */
     private void endGame() {
         Intent intent = new Intent(this, EcranDeFinActivity.class);
         intent.putExtra("score", this.score);
@@ -190,6 +196,10 @@ public class JeuActivity extends Activity implements SensorEventListener, View.O
         return true;
     }
 
+    /**
+     * Quand le joueur effectue une action.
+     * @param success
+     */
     public void actionJoueur(boolean success) {
         // On change le score
         if(success)
@@ -210,6 +220,9 @@ public class JeuActivity extends Activity implements SensorEventListener, View.O
         }, 1000);
     }
 
+    /**
+     * Affichage.
+     */
     public static class AnimatedView extends android.support.v7.widget.AppCompatImageView {
 
         public AnimatedView(Context context) {
@@ -236,15 +249,13 @@ public class JeuActivity extends Activity implements SensorEventListener, View.O
         @Override
         protected void onDraw(Canvas canvas) {
             //Draw
-            for (int i = 0; i < migeons.size(); i++)
-            {
+            for (int i = 0; i < migeons.size(); i++) {
                 canvas.drawBitmap(migeon, migeons.get(i).getX(), migeons.get(i).getY(), null);
                 migeons.get(i).tick();
             }
 
             //Remove
-            for (int i = 0; i < migeons.size(); i++)
-            {
+            for (int i = 0; i < migeons.size(); i++) {
                 if (migeons.get(i).getY() > canvas.getHeight())
                     migeons.remove(i);
             }

@@ -21,6 +21,10 @@ public class EcranDeFinActivity extends AppCompatActivity {
         tvScoreFinal.setText("Score final : " + score);
     }
 
+    /**
+     * Retour à l'accueil.
+     * @param v
+     */
     public void retourAccueil(View v) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
