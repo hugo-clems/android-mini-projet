@@ -31,31 +31,30 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
     // Gestion du toucher
     private SensorManager sensorManager;
     private Sensor accelerometer;
-    private long lastUpdate;
 
     // Vue
     public AnimatedView animatedView = null;
     public static Bitmap mDrawable;
     public static int x;
     public static int y;
-    public static int width;
-    public static int height;
-    public static final int ballSize = 100;
+    public static int screenWidth;
+    public static int screenHeight;
+    public static final int crosshairSize = 100;
     public static final float speed = 4;
 
     // Gestion des Migeons
     private static ArrayList<Migeon> migeons;
     private static Bitmap migeon;
     private Handler mHandler;
+    private static final int migeonX = 250;
+    private static final int migeonY = 300;
 
     // Gestion du Score
     private TextView tvScore;
     private int score;
     private boolean canTouch = true;
 
-    private static final int migeonX = 250;
-    private static final int migeonY = 300;
-
+    // Gestion des valeurs
     private ArrayList<Float> listeValeurs;
 
     @Override
@@ -65,35 +64,39 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
 
         // Récupérations des paramétres
         String titre = (String) getIntent().getSerializableExtra("tag");
-        //ArrayList<Float> datas = (ArrayList<Float>) getIntent().getSerializableExtra("list");
         float[] datas = getIntent().getExtras().getFloatArray("donnees");
         Float valMax = (Float) getIntent().getSerializableExtra("valMax");
         setTitle(titre);
 
+        // Récupération de la taille de l'écran
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        width = size.x;
-        height = size.y;
+        screenWidth = size.x;
+        screenHeight = size.y;
 
-        x = width / 2 - ballSize / 2;
-        y = height / 2 - ballSize / 2;
+        // Placement de la cible au milieu de l'écran
+        x = screenWidth / 2 - crosshairSize / 2;
+        y = screenHeight / 2 - crosshairSize / 2;
 
+        // Récupération de l'image de Migeon
         migeons = new ArrayList<Migeon>();
         migeon = BitmapFactory.decodeResource(getResources(), R.drawable.migeon);
         Drawable dm = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(migeon, migeonX, migeonY, true));
         migeon = ((BitmapDrawable) dm).getBitmap();
 
+        // Normalisation des valeurs
         listeValeurs = new ArrayList<Float>();
         for(int i = 0; i < datas.length; i++) {
             listeValeurs.add((size.x - migeonX) * datas[i] / valMax);
         }
 
+        // Initialisation des timers
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         accelerometer = sensorManager
                 .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        lastUpdate = System.currentTimeMillis();
 
+        // Timer du toucher
         mHandler = new Handler();
         mHandler.postDelayed(mUpdateTimeTask, 1000);
 
@@ -154,18 +157,18 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
             int xValue = x - (int) (event.values[0] * speed);
             int yValue = y + (int) (event.values[1] * speed);
 
-            if(xValue > 0 && xValue + ballSize < animatedView.getWidth())
+            if(xValue > 0 && xValue + crosshairSize < animatedView.getWidth())
                 x = xValue;
 
-            if(yValue > 0 && yValue + ballSize < animatedView.getHeight())
+            if(yValue > 0 && yValue + crosshairSize < animatedView.getHeight())
                 y = yValue;
         }
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        int posX = x + ballSize / 2;
-        int posY = y + ballSize / 2;
+        int posX = x + crosshairSize / 2;
+        int posY = y + crosshairSize / 2;
 
         for(Migeon m : migeons) {
             if(canTouch && posX > m.getX() && posX < m.getX() + migeon.getWidth() && posY > m.getY() && posY < m.getY() + migeon.getHeight()) {
@@ -205,21 +208,21 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
         public AnimatedView(Context context) {
             super(context);
             mDrawable = BitmapFactory.decodeResource(getResources(), R.drawable.crosshair);
-            Drawable d = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(mDrawable, ballSize, ballSize, true));
+            Drawable d = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(mDrawable, crosshairSize, crosshairSize, true));
             mDrawable = ((BitmapDrawable) d).getBitmap();
         }
 
         public AnimatedView(Context context, AttributeSet attrs) {
             super(context, attrs);
             mDrawable = BitmapFactory.decodeResource(getResources(), R.drawable.crosshair);
-            Drawable d = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(mDrawable, ballSize, ballSize, true));
+            Drawable d = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(mDrawable, crosshairSize, crosshairSize, true));
             mDrawable = ((BitmapDrawable) d).getBitmap();
         }
 
         public AnimatedView(Context context, AttributeSet attrs, int defStyle) {
             super(context, attrs, defStyle);
             mDrawable = BitmapFactory.decodeResource(getResources(), R.drawable.crosshair);
-            Drawable d = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(mDrawable, ballSize, ballSize, true));
+            Drawable d = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(mDrawable, crosshairSize, crosshairSize, true));
             mDrawable = ((BitmapDrawable) d).getBitmap();
         }
 
