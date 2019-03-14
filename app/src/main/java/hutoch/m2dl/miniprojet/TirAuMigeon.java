@@ -175,7 +175,11 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
 
     public void actionJoueur(boolean success) {
         // On change le score
-        score = success ? score + 1 : score - 1;
+        if(success)
+            score++;
+        else if(score > 0) {
+            score--;
+        }
         tvScore.setText("Score : " + score);
 
         // On attends 1000ms avant d'autoriser à toucher à nouveau
