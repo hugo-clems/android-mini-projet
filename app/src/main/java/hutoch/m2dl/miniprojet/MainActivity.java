@@ -389,7 +389,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             case "2":
                 titre = "Jouer avec Noise";
                 pushValues(noiseData, intent);
-                intent.putExtra("valMax", this.noiseMax);
+                intent.putExtra("valMax", this.noiseMax + 0f);
                 break;
             case "3":
                 titre = "Jouer avec Accelero";
