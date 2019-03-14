@@ -144,10 +144,10 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
             int xValue = x - (int) (event.values[0] * speed);
             int yValue = y + (int) (event.values[1] * speed);
 
-            if(xValue > 0 && xValue + ballSize < width)
+            if(xValue > 0 && xValue + ballSize < animatedView.getWidth())
                 x = xValue;
 
-            if(yValue > 0 && yValue + ballSize < height)
+            if(yValue > 0 && yValue + ballSize < animatedView.getHeight())
                 y = yValue;
         }
     }
