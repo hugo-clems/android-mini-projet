@@ -25,7 +25,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import hutoch.m2dl.miniprojet.utils.DetectNoise;
 
@@ -364,6 +363,14 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         btnSelected.setEnabled(true);
     }
 
+    public void pushValues(ArrayList<Float> values, Intent intent) {
+        float[] array = new float[values.size()];
+        for(int i = 0; i < values.size(); i++) {
+            array[i] = values.get(i);
+        }
+        intent.putExtra("donnees", array);
+    }
+
     public void clicBtnSelected(View v) {
         String tag = "" + v.getTag();
         String titre = "";
@@ -371,23 +378,28 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         switch (tag) {
             case "1":
                 titre = "Jouer avec Touch";
-                intent.putExtra("donnees", this.touchData);
+                pushValues(touchData, intent);
+                intent.putExtra("valMax", this.touchMax);
                 break;
             case "2":
                 titre = "Jouer avec Noise";
-                intent.putExtra("donnees", this.noiseData);
+                pushValues(noiseData, intent);
+                intent.putExtra("valMax", this.noiseMax);
                 break;
             case "3":
                 titre = "Jouer avec Accelero";
-                intent.putExtra("donnees", this.acceleroData);
+                pushValues(acceleroData, intent);
+                intent.putExtra("valMax", this.acceleroMax);
                 break;
             case "4":
                 titre = "Jouer avec Lumin";
-                intent.putExtra("donnees", this.luminData);
+                pushValues(luminData, intent);
+                intent.putExtra("valMax", this.luminMax);
                 break;
             case "5":
                 titre = "Jouer avec GPS";
-                intent.putExtra("donnees", this.gpsData);
+                pushValues(gpsData, intent);
+                intent.putExtra("valMax", this.gpsMax);
                 break;
         }
         intent.putExtra("titre", titre);

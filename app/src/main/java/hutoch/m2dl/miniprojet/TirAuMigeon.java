@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import hutoch.m2dl.miniprojet.utils.Migeon;
 
@@ -39,7 +40,7 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
     public static int width;
     public static int height;
     public static final int ballSize = 100;
-    public static final float speed = 2;
+    public static final float speed = 4;
 
     // Gestion des Migeons
     private static ArrayList<Migeon> migeons;
@@ -51,6 +52,9 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
     private int score;
     private boolean canTouch = true;
 
+    private static final int migeonX = 250;
+    private static final int migeonY = 300;
+
     private ArrayList<Float> listeValeurs;
 
     @Override
@@ -60,7 +64,9 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
 
         // Récupérations des paramétres
         String titre = (String) getIntent().getSerializableExtra("tag");
-        ArrayList<Float> datas = (ArrayList<Float>) getIntent().getSerializableExtra("list");
+        //ArrayList<Float> datas = (ArrayList<Float>) getIntent().getSerializableExtra("list");
+        float[] datas = getIntent().getExtras().getFloatArray("donnees");
+        Float valMax = (Float) getIntent().getSerializableExtra("valMax");
         setTitle(titre);
 
         Display display = getWindowManager().getDefaultDisplay();
@@ -69,22 +75,15 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
         width = size.x;
         height = size.y;
 
-        int migeonX = 100;
-        int migeonY = 120;
-
         migeons = new ArrayList<Migeon>();
         migeon = BitmapFactory.decodeResource(getResources(), R.drawable.migeon);
         Drawable dm = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(migeon, migeonX, migeonY, true));
         migeon = ((BitmapDrawable) dm).getBitmap();
 
         listeValeurs = new ArrayList<Float>();
-        listeValeurs.add(10f);
-        listeValeurs.add(500f);
-        listeValeurs.add(250f);
-        listeValeurs.add(100f);
-        listeValeurs.add(600f);
-        listeValeurs.add(40f);
-        listeValeurs.add(300f);
+        for(int i = 0; i < datas.length; i++) {
+            listeValeurs.add((size.x - migeonX) * datas[i] / valMax);
+        }
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         accelerometer = sensorManager
@@ -105,7 +104,7 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
     private Runnable mUpdateTimeTask = new Runnable() {
         public void run() {
             if(listeValeurs.size() > 0) {
-                migeons.add(new Migeon(listeValeurs.remove(0), 0));
+                migeons.add(new Migeon(listeValeurs.remove(0), -migeonY));
             }
             // inserez ici ce que vous voulez executer...
             mHandler.postDelayed(this, 2000);

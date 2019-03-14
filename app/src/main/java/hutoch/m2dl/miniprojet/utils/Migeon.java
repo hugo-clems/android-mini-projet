@@ -8,7 +8,7 @@ public class Migeon {
 	public Migeon(float x, float y) {
 		posX = x;
 		posY = y;
-		rate = 10;
+		rate = 30;
 	}
 	
 	public void tick() {
