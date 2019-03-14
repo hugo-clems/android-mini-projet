@@ -9,6 +9,7 @@ import android.widget.TextView;
 public class EcranDeFinActivity extends AppCompatActivity {
 
     private TextView tvScoreFinal;
+    private TextView tvNbTetes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,9 +17,13 @@ public class EcranDeFinActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ecran_de_fin);
 
         int score = (int) getIntent().getSerializableExtra("score");
+        int nbTetes = (int) getIntent().getSerializableExtra("nbTetes");
 
         tvScoreFinal = findViewById(R.id.tvScoreFinal);
-        tvScoreFinal.setText("Score final : " + score);
+        tvNbTetes = findViewById(R.id.tvNbTetes);
+
+        tvScoreFinal.setText(score + " têtes sont passées.");
+        tvScoreFinal.setText("Vous avez réussi à en avoir " + score + " !");
     }
 
     /**

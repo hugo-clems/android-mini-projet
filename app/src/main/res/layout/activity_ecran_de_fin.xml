@@ -26,6 +26,15 @@
             android:layout_weight="1" />
 
         <TextView
+            android:id="@+id/tvNbTetes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:text="Nb Tetes :"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+        <TextView
             android:id="@+id/tvScoreFinal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

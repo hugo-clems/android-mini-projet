@@ -59,6 +59,7 @@ public class JeuActivity extends Activity implements SensorEventListener, View.O
 
     // Gestion des valeurs
     private ArrayList<Float> listeValeurs;
+    private int nbTetes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +94,7 @@ public class JeuActivity extends Activity implements SensorEventListener, View.O
         for(int i = 0; i < datas.length; i++) {
             listeValeurs.add((size.x - migeonX) * datas[i] / valMax);
         }
+        nbTetes = listeValeurs.size();
 
         // Initialisation des timers
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -134,6 +136,7 @@ public class JeuActivity extends Activity implements SensorEventListener, View.O
     private void endGame() {
         Intent intent = new Intent(this, EcranDeFinActivity.class);
         intent.putExtra("score", this.score);
+        intent.putExtra("nbTetes", this.nbTetes);
         startActivity(intent);
     }
 
