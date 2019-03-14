@@ -2,6 +2,7 @@ package hutoch.m2dl.miniprojet;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -16,6 +17,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MotionEvent;
@@ -118,13 +120,16 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
             } else {
                 // La partie est terminée
                 gameDone = true;
-                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                if(vibrator.hasVibrator()) {
-                    vibrator.vibrate(500);
-                }
+                endGame();
             }
         }
     };
+
+    private void endGame() {
+        Intent intent = new Intent(this, EcranDeFinActivity.class);
+        intent.putExtra("score", this.score);
+        startActivity(intent);
+    }
 
     @Override
     protected void onResume() {
