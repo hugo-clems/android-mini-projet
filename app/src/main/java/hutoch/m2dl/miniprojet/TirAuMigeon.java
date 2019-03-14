@@ -53,6 +53,7 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
     private TextView tvScore;
     private int score;
     private boolean canTouch = true;
+    private boolean gameDone = false;
 
     // Gestion des valeurs
     private ArrayList<Float> listeValeurs;
@@ -116,6 +117,7 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
                 mHandler.postDelayed(this, 1500);
             } else {
                 // La partie est terminée
+                gameDone = true;
                 Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                 if(vibrator.hasVibrator()) {
                     vibrator.vibrate(500);
@@ -244,6 +246,13 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
 
             canvas.drawBitmap(mDrawable, x, y, null);
             invalidate();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (gameDone) {
+            super.onBackPressed();
         }
     }
 
