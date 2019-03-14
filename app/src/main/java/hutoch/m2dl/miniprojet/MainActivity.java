@@ -14,7 +14,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Handler;
 import android.os.PowerManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -37,10 +39,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private static final int DELTA_LUMIN = 5;
     private static final int NOISE_POLL_INTERVAL = 300;
     private static final int PERMISSION_ALL = 1;
-    private static final String[] PERMISSIONS = {
-            android.Manifest.permission.RECORD_AUDIO,
-            android.Manifest.permission.ACCESS_FINE_LOCATION,
-    };
 
     /* *** Utils *** */
     private DetectNoise noiseSensor;
@@ -50,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private Sensor acceleroSensor;
     private Sensor luminSensor;
     private LocationManager locationManager;
+    private boolean permissionsOK = false;
 
     /* *** Elements de la vue *** */
     private LinearLayout linearLayout;
@@ -93,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     /**
      * A la création de l'activité.
      */
-    @SuppressLint({"InvalidWakeLockTag", "MissingPermission"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,11 +146,25 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         gpsAct = 0f;
         gpsMax = 0f;
 
-        // Permissions
-        if(!hasPermissions(this, PERMISSIONS)){
-            ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
+        if (!hasGPSPermission() || !hasMicroPermission()) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_ALL);
+        } else {
+            permissionsOK = true;
+            initSensors();
         }
+    }
 
+    public boolean hasMicroPermission() {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public boolean hasGPSPermission() {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    @SuppressLint({"InvalidWakeLockTag", "MissingPermission"})
+    private void initSensors() {
         // Touch event
         linearLayout.setOnTouchListener(this);
 
@@ -171,32 +183,25 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
     }
 
-    public static boolean hasPermissions(Context context, String... permissions) {
-        if (context != null && permissions != null) {
-            for (String permission : permissions) {
-                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
     @Override
     protected void onPause() {
         super.onPause();
-        sensorManager.unregisterListener(this);
+        if (permissionsOK) {
+            sensorManager.unregisterListener(this);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (!noiseRunning) {
-            noiseRunning = true;
-            startNoiseSensor();
+        if (permissionsOK) {
+            if (!noiseRunning) {
+                noiseRunning = true;
+                startNoiseSensor();
+            }
+            sensorManager.registerListener(this, acceleroSensor, SensorManager.SENSOR_DELAY_NORMAL);
+            sensorManager.registerListener(this, luminSensor, SensorManager.SENSOR_DELAY_NORMAL);
         }
-        sensorManager.registerListener(this, acceleroSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(this, luminSensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
@@ -424,6 +429,23 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         }
 
         gpsData.add(gpsAct);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_ALL: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                        && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    permissionsOK = true;
+                    initSensors();
+                } else {
+                    //
+                }
+                return;
+            }
+        }
     }
 
     @Override
