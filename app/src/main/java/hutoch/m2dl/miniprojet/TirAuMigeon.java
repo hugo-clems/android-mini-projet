@@ -14,6 +14,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.util.AttributeSet;
 import android.view.Display;
 import android.view.Menu;
@@ -108,8 +109,13 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
         public void run() {
             if(listeValeurs.size() > 0) {
                 migeons.add(new Migeon(listeValeurs.remove(0), -migeonY));
+            } else {
+                // La partie est terminée
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                if(vibrator.hasVibrator()) {
+                    vibrator.vibrate(500);
+                }
             }
-            // inserez ici ce que vous voulez executer...
             mHandler.postDelayed(this, 1500);
         }
     };
