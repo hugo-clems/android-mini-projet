@@ -379,7 +379,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     public void clicBtnSelected(View v) {
         String tag = "" + v.getTag();
         String titre = "";
-        Intent intent = new Intent(this, TirAuMigeon.class);
+        Intent intent = new Intent(this, JeuActivity.class);
         switch (tag) {
             case "1":
                 titre = "Jouer avec Touch";
