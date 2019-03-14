@@ -12,12 +12,230 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvTitre1"
+        <Button
+            android:id="@+id/btnSelected"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Touch"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+            android:layout_weight="0.01"
+            android:onClick="clicBtnSelected"
+            android:text="Sélectionner un jeu" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvTitre1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Touch"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tvTitre3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Accelero"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tvTitre5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="GPS"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2" />
+
+            <TextView
+                android:id="@+id/tvTitre2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Noise"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tvTitre4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Lumin"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvTouchMax"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/tvNoiseMax"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/tvAcceleroMax"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/tvLuminMax"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/tvGpsMax"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/LinearLayout01"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.6" />
+
+            <ProgressBar
+                android:id="@+id/vertical_progressbar01"
+                style="@style/Widget.ProgressBar.Vertical"
+                android:layout_width="12dip"
+                android:layout_height="300dip"
+                android:layout_weight="0.3"
+                android:onClick="clicProgressBar"
+                android:clickable="true"
+                android:focusable="true"
+                android:tag="1" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <ProgressBar
+                android:id="@+id/vertical_progressbar02"
+                style="@style/Widget.ProgressBar.Vertical"
+                android:layout_width="12dip"
+                android:layout_height="300dip"
+                android:layout_weight="0.3"
+                android:onClick="clicProgressBar"
+                android:clickable="true"
+                android:focusable="true"
+                android:tag="2" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <ProgressBar
+                android:id="@+id/vertical_progressbar03"
+                style="@style/Widget.ProgressBar.Vertical"
+                android:layout_width="12dip"
+                android:layout_height="300dip"
+                android:layout_weight="0.3"
+                android:onClick="clicProgressBar"
+                android:clickable="true"
+                android:focusable="true"
+                android:tag="3" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <ProgressBar
+                android:id="@+id/vertical_progressbar04"
+                style="@style/Widget.ProgressBar.Vertical"
+                android:layout_width="12dip"
+                android:layout_height="300dip"
+                android:layout_weight="0.3"
+                android:onClick="clicProgressBar"
+                android:clickable="true"
+                android:focusable="true"
+                android:tag="4" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <ProgressBar
+                android:id="@+id/vertical_progressbar05"
+                style="@style/Widget.ProgressBar.Vertical"
+                android:layout_width="12dip"
+                android:layout_height="300dip"
+                android:layout_weight="0.3"
+                android:onClick="clicProgressBar"
+                android:clickable="true"
+                android:focusable="true"
+                android:tag="5" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.6" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,129 +244,44 @@
 
             <TextView
                 android:id="@+id/tvTouchAct"
-                android:layout_width="203dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="TextView" />
-
-            <TextView
-                android:id="@+id/tvTouchMax"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvTitre2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Noise"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvNoiseAct"
-                android:layout_width="205dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="TextView" />
-
-            <TextView
-                android:id="@+id/tvNoiseMax"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
-        </LinearLayout>
-
-        <ProgressBar
-            android:id="@+id/pbNoise"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/tvTitre3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Accelero"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvAcceleroAct"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="TextView" />
-
-            <TextView
-                android:id="@+id/tvAcceleroMax"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TextView" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvTitre4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Lumin"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvLuminAct"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="TextView" />
-
-            <TextView
-                android:id="@+id/tvLuminMax"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TextView" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvTitre5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="GPS"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvGpsAct"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TextView" />
-
-            <TextView
-                android:id="@+id/tvGpsMax"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="TextView" />
         </LinearLayout>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
