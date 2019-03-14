@@ -72,10 +72,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private ProgressBar progressBarGPS;
 
     /* *** Valeurs *** */
-    private List<Float> touchData;
-    private List<Float> acceleroData;
-    private List<Float> luminData;
-    private List<Float> gpsData;
+    private ArrayList<Float> touchData;
+    private ArrayList<Float> noiseData;
+    private ArrayList<Float> acceleroData;
+    private ArrayList<Float> luminData;
+    private ArrayList<Float> gpsData;
     private Float touchMax;
     private Float touchAct;
     private Float acceleroAct;
@@ -133,6 +134,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
         // Initialisation des valeurs
         touchData = new ArrayList<>();
+        noiseData = new ArrayList<>();
         acceleroData = new ArrayList<>();
         luminData = new ArrayList<>();
         gpsData = new ArrayList<>();
@@ -283,6 +285,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 tvNoiseMax.setText("Valeur max : " + noiseMax + "dB");
                 progressBarNoise.setMax(noiseMax);
             }
+
+            noiseData.add(noiseAct + 0f);
         }
     }
 
@@ -362,9 +366,31 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     public void clicBtnSelected(View v) {
         String tag = "" + v.getTag();
-        //this.btnSelected.setText(tag);
-        Intent intent = new Intent(this, JeuActivity.class);
-        intent.putExtra("tag", tag);
+        String titre = "";
+        Intent intent = new Intent(this, TirAuMigeon.class);
+        switch (tag) {
+            case "1":
+                titre = "Jouer avec Touch";
+                intent.putExtra("donnees", this.touchData);
+                break;
+            case "2":
+                titre = "Jouer avec Noise";
+                intent.putExtra("donnees", this.noiseData);
+                break;
+            case "3":
+                titre = "Jouer avec Accelero";
+                intent.putExtra("donnees", this.acceleroData);
+                break;
+            case "4":
+                titre = "Jouer avec Lumin";
+                intent.putExtra("donnees", this.luminData);
+                break;
+            case "5":
+                titre = "Jouer avec GPS";
+                intent.putExtra("donnees", this.gpsData);
+                break;
+        }
+        intent.putExtra("titre", titre);
         startActivity(intent);
     }
 

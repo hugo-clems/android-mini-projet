@@ -52,6 +52,11 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jeu);
 
+        // Récupérations des paramétres
+        String titre = (String) getIntent().getSerializableExtra("tag");
+        ArrayList<Float> datas = (ArrayList<Float>) getIntent().getSerializableExtra("list");
+        setTitle(titre);
+
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
