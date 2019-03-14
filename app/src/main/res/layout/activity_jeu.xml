@@ -7,15 +7,25 @@
     tools:context=".TirAuMigeon">
 
     <LinearLayout
-        android:id="@+id/linearLayoutGame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvJeu"
+        <view
+            android:id="@+id/zoneDeJeu"
+            class="hutoch.m2dl.miniprojet.TirAuMigeon$AnimatedView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_height="match_parent"
+            android:layout_weight="0.1" />
+
+        <TextView
+            android:id="@+id/tvScore"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Score"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
     </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

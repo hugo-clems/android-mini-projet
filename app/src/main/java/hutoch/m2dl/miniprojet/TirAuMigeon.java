@@ -17,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
@@ -24,27 +25,38 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import hutoch.m2dl.miniprojet.utils.Migeon;
+
 public class TirAuMigeon extends Activity implements SensorEventListener, View.OnTouchListener {
+    // Gestion du toucher
     private SensorManager sensorManager;
     private Sensor accelerometer;
     private long lastUpdate;
 
+    // Vue
     public AnimatedView animatedView = null;
-    public ShapeDrawable mDrawable = new ShapeDrawable();
+    public static ShapeDrawable mDrawable = new ShapeDrawable();
     public static int x;
     public static int y;
     public static int width;
     public static int height;
-    public static final int ballSize = 50;
+    public static final int ballSize = 60;
     public static final float speed = 2;
 
-    private ArrayList<Migeon> migeons;
-    private Bitmap migeon;
-
+    // Gestion des Migeons
+    private static ArrayList<Migeon> migeons;
+    private static Bitmap migeon;
     private Handler mHandler;
+
+    // Gestion du Score
+    private TextView tvScore;
+    private int score;
+    private boolean canTouch = true;
+
     private ArrayList<Float> listeValeurs;
 
     @Override
@@ -55,7 +67,7 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
         // Récupérations des paramétres
         String titre = (String) getIntent().getSerializableExtra("tag");
         ArrayList<Float> datas = (ArrayList<Float>) getIntent().getSerializableExtra("list");
-        setTitle(titre);
+        setTitle("x:"+titre);
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -83,9 +95,12 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
         mHandler = new Handler();
         mHandler.postDelayed(mUpdateTimeTask, 1000);
 
-        animatedView = new AnimatedView(this);
+        // Initialisation du score
+        tvScore = findViewById(R.id.tvScore);
+        score = 0;
+
+        animatedView = findViewById(R.id.zoneDeJeu);
         animatedView.setOnTouchListener(this);
-        setContentView(animatedView);
     }
 
     private Runnable mUpdateTimeTask = new Runnable() {
@@ -145,21 +160,59 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
         int posY = y + ballSize / 2;
 
         for(Migeon m : migeons) {
-            if(posX > m.getX() && posX < m.getX() + migeon.getWidth() && posY > m.getY() && posY < m.getY() + migeon.getHeight()) {
+            if(canTouch && posX > m.getX() && posX < m.getX() + migeon.getWidth() && posY > m.getY() && posY < m.getY() + migeon.getHeight()) {
                 migeons.remove(m);
+                actionJoueur(true);
                 return true;
             }
+        }
+        if (canTouch) {
+            actionJoueur(false);
         }
         return true;
     }
 
-    public class AnimatedView extends android.support.v7.widget.AppCompatImageView {
+    public void actionJoueur(boolean success) {
+        // On change le score
+        score = success ? score + 1 : score - 1;
+        tvScore.setText("Score : " + score);
+
+        // On attends 1000ms avant d'autoriser à toucher à nouveau
+        canTouch = false;
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                canTouch = true;
+            }
+        }, 1000);
+    }
+
+    public static class AnimatedView extends android.support.v7.widget.AppCompatImageView {
 
         public AnimatedView(Context context) {
             super(context);
 
             mDrawable = new ShapeDrawable(new OvalShape());
-            mDrawable.getPaint().setColor(Color.GRAY);
+            mDrawable.getPaint().setColor(Color.RED);
+            mDrawable.setBounds(x, y, x + ballSize, y + ballSize);
+
+        }
+
+        public AnimatedView(Context context, AttributeSet attrs) {
+            super(context, attrs);
+
+            mDrawable = new ShapeDrawable(new OvalShape());
+            mDrawable.getPaint().setColor(Color.RED);
+            mDrawable.setBounds(x, y, x + ballSize, y + ballSize);
+
+        }
+
+        public AnimatedView(Context context, AttributeSet attrs, int defStyle) {
+            super(context, attrs, defStyle);
+
+            mDrawable = new ShapeDrawable(new OvalShape());
+            mDrawable.getPaint().setColor(Color.RED);
             mDrawable.setBounds(x, y, x + ballSize, y + ballSize);
 
         }

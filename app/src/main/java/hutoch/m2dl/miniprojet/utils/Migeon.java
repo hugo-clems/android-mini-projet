@@ -1,30 +1,25 @@
-package hutoch.m2dl.miniprojet;
+package hutoch.m2dl.miniprojet.utils;
 
-public class Migeon
-{
+public class Migeon {
 	private float posX;
 	private float posY;
 	private float rate;
 	
-	public Migeon(float x, float y)
-	{
+	public Migeon(float x, float y) {
 		posX = x;
 		posY = y;
 		rate = 10;
 	}
 	
-	public void tick()
-	{
+	public void tick() {
 		posY += rate;
 	}
 	
-	public float getX()
-	{
+	public float getX() {
 		return posX;
 	}
 	
-	public float getY()
-	{
+	public float getY() {
 		return posY;
 	}
 }
