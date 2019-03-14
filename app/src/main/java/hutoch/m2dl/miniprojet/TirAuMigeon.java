@@ -5,10 +5,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -34,12 +33,12 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
 
     // Vue
     public AnimatedView animatedView = null;
-    public static ShapeDrawable mDrawable = new ShapeDrawable();
+    public static Bitmap mDrawable;
     public static int x;
     public static int y;
     public static int width;
     public static int height;
-    public static final int ballSize = 60;
+    public static final int ballSize = 100;
     public static final float speed = 2;
 
     // Gestion des Migeons
@@ -62,7 +61,7 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
         // Récupérations des paramétres
         String titre = (String) getIntent().getSerializableExtra("tag");
         ArrayList<Float> datas = (ArrayList<Float>) getIntent().getSerializableExtra("list");
-        setTitle("x:"+titre);
+        setTitle(titre);
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -187,29 +186,23 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
 
         public AnimatedView(Context context) {
             super(context);
-
-            mDrawable = new ShapeDrawable(new OvalShape());
-            mDrawable.getPaint().setColor(Color.RED);
-            mDrawable.setBounds(x, y, x + ballSize, y + ballSize);
-
+            mDrawable = BitmapFactory.decodeResource(getResources(), R.drawable.crosshair);
+            Drawable d = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(mDrawable, ballSize, ballSize, true));
+            mDrawable = ((BitmapDrawable) d).getBitmap();
         }
 
         public AnimatedView(Context context, AttributeSet attrs) {
             super(context, attrs);
-
-            mDrawable = new ShapeDrawable(new OvalShape());
-            mDrawable.getPaint().setColor(Color.RED);
-            mDrawable.setBounds(x, y, x + ballSize, y + ballSize);
-
+            mDrawable = BitmapFactory.decodeResource(getResources(), R.drawable.crosshair);
+            Drawable d = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(mDrawable, ballSize, ballSize, true));
+            mDrawable = ((BitmapDrawable) d).getBitmap();
         }
 
         public AnimatedView(Context context, AttributeSet attrs, int defStyle) {
             super(context, attrs, defStyle);
-
-            mDrawable = new ShapeDrawable(new OvalShape());
-            mDrawable.getPaint().setColor(Color.RED);
-            mDrawable.setBounds(x, y, x + ballSize, y + ballSize);
-
+            mDrawable = BitmapFactory.decodeResource(getResources(), R.drawable.crosshair);
+            Drawable d = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(mDrawable, ballSize, ballSize, true));
+            mDrawable = ((BitmapDrawable) d).getBitmap();
         }
 
         @Override
@@ -227,8 +220,8 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
                 if (migeons.get(i).getY() > canvas.getHeight())
                     migeons.remove(i);
             }
-            mDrawable.setBounds(x, y, x + ballSize, y + ballSize);
-            mDrawable.draw(canvas);
+
+            canvas.drawBitmap(mDrawable, x, y, null);
             invalidate();
         }
     }
