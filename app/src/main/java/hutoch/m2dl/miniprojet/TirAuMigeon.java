@@ -100,6 +100,7 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
         // Initialisation du score
         tvScore = findViewById(R.id.tvScore);
         score = 0;
+        tvScore.setText("Score : " + score);
 
         animatedView = findViewById(R.id.zoneDeJeu);
         animatedView.setOnTouchListener(this);
@@ -109,6 +110,7 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
         public void run() {
             if(listeValeurs.size() > 0) {
                 migeons.add(new Migeon(listeValeurs.remove(0), -migeonY));
+                mHandler.postDelayed(this, 1500);
             } else {
                 // La partie est terminée
                 Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -116,7 +118,6 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
                     vibrator.vibrate(500);
                 }
             }
-            mHandler.postDelayed(this, 1500);
         }
     };
 
