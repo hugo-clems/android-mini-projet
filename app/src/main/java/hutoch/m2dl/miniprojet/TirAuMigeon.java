@@ -107,7 +107,7 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
                 migeons.add(new Migeon(listeValeurs.remove(0), -migeonY));
             }
             // inserez ici ce que vous voulez executer...
-            mHandler.postDelayed(this, 2000);
+            mHandler.postDelayed(this, 1500);
         }
     };
 

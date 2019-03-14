@@ -18,6 +18,11 @@
             android:layout_height="match_parent"
             android:layout_weight="0.1" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/black" />
+
         <TextView
             android:id="@+id/tvScore"
             android:layout_width="match_parent"
