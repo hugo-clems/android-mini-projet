@@ -75,6 +75,9 @@ public class TirAuMigeon extends Activity implements SensorEventListener, View.O
         width = size.x;
         height = size.y;
 
+        x = width / 2 - ballSize / 2;
+        y = height / 2 - ballSize / 2;
+
         migeons = new ArrayList<Migeon>();
         migeon = BitmapFactory.decodeResource(getResources(), R.drawable.migeon);
         Drawable dm = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(migeon, migeonX, migeonY, true));
