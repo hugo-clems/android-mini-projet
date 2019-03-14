@@ -22,8 +22,8 @@ public class EcranDeFinActivity extends AppCompatActivity {
         tvScoreFinal = findViewById(R.id.tvScoreFinal);
         tvNbTetes = findViewById(R.id.tvNbTetes);
 
-        tvScoreFinal.setText(score + " têtes sont passées.");
-        tvScoreFinal.setText("Vous avez réussi à en avoir " + score + " !");
+        tvNbTetes.setText(score + " têtes sont passées.");
+        tvScoreFinal.setText("Score : " + score);
     }
 
     /**
