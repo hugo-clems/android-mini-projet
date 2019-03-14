@@ -13,18 +13,13 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Vibrator;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
